@@ -10,9 +10,10 @@ export default class RecieverDetailsScreen extends Component{
     super(props);
     this.state={
       userId          : firebase.auth().currentUser.email,
-      receiverId      : this.props.navigation.getParam('details')["user_id"],
+      recieverId      : this.props.navigation.getParam('details')["user_id"],
       exchangeId       : this.props.navigation.getParam('details')["exchangeId"],
       itemName        : this.props.navigation.getParam('details')["item_name"],
+      requestId: this.props.navigation.getParam("details")["exchangeId"],
       description  : this.props.navigation.getParam('details')["description"],
       recieverName    : '',
       recieverContact : '',
@@ -24,7 +25,7 @@ export default class RecieverDetailsScreen extends Component{
 
 
 getRecieverDetails(){
-  db.collection('users').where('user_id','==',this.state.receiverId).get()
+  db.collection('users').where('user_id','==',this.state.recieverId).get()
   .then(snapshot=>{
     snapshot.forEach(doc=>{
       this.setState({
@@ -44,7 +45,7 @@ getRecieverDetails(){
 
 updateBarterStatus=()=>{
   db.collection('all_Barters').add({
-    book_name           : this.state.itemName,
+    item_name           : this.state.itemName,
     exchange_id          : this.state.exchangeId,
     requested_by        : this.state.recieverName,
     donor_id            : this.state.userId,
@@ -52,7 +53,19 @@ updateBarterStatus=()=>{
   })
 }
 
-
+addNotification = () => {
+  var message =
+    this.state.userName + " has shown interest in donating the book";
+  db.collection("all_notifications").add({
+    targeted_user_id: this.state.recieverId,
+    donor_id: this.state.userId,
+    exchange_id: this.state.exchangeId,
+    item_name: this.state.itemName,
+    date: firebase.firestore.FieldValue.serverTimestamp(),
+    notification_status: "unread",
+    message: message,
+  });
+};
 
 componentDidMount(){
   this.getRecieverDetails()
@@ -105,6 +118,7 @@ componentDidMount(){
               <TouchableOpacity
                   style={styles.button}
                   onPress={()=>{
+                    this.addNotification()
                     this.updateBarterStatus()
                     this.props.navigation.navigate('MyBarters')
                   }}>
