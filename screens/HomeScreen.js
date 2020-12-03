@@ -58,7 +58,7 @@ export default class HomeScreen extends Component{
   render(){
     return(
       <View style={{flex:1}}>
-        <MyHeader title="Barter App"/>
+        <MyHeader title="Barter App" navigation={this.props.navigation}/>
         <View style={{flex:1}}>
           {
             this.state.allRequests.length === 0
