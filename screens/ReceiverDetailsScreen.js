@@ -15,6 +15,7 @@ export default class RecieverDetailsScreen extends Component{
       itemName        : this.props.navigation.getParam('details')["item_name"],
       requestId: this.props.navigation.getParam("details")["exchangeId"],
       description  : this.props.navigation.getParam('details')["description"],
+      userName:'',
       recieverName    : '',
       recieverContact : '',
       recieverAddress : '',
@@ -41,7 +42,14 @@ getRecieverDetails(){
     snapshot.forEach(doc => {
       this.setState({recieverRequestDocId:doc.id})
    })
-})}
+})
+db.collection('users').where('user_id','==',this.state.userId).get()
+  .then(snapshot=>{
+    snapshot.forEach(doc => {
+      this.setState({userName:doc.data().first_name+''+doc.data().last_name})
+   })
+})
+}
 
 updateBarterStatus=()=>{
   db.collection('all_Barters').add({
