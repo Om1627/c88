@@ -43,7 +43,8 @@ export default class WelcomeScreen extends Component {
           last_name:this.state.lastName,
           mobile_number:this.state.mobileNumber,
           user_id:this.state.username,
-          address:this.state.address
+          address:this.state.address,
+          IsExchangeRequestActive: false,
         })
         return  Alert.alert(
              'User Added Successfully',

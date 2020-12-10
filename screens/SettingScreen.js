@@ -21,12 +21,12 @@ export default class SettingScreen extends Component{
   var user = firebase.auth().currentUser;
   var email= user.email
 
- db.collection('users').where('username','==',email).get()
+ db.collection('users').where('user_id','==',email).get()
   .then(snapshot => {
     snapshot.forEach(doc => {
        var data = doc.data()
        this.setState({
-         emailId: data.username,
+         emailId: data.user_id,
          firstName:data.first_name,
          lastName:data.last_name,
          address:data.address,
