@@ -13,6 +13,7 @@ export default class RecieverDetailsScreen extends Component{
       recieverId      : this.props.navigation.getParam('details')["user_id"],
       exchangeId       : this.props.navigation.getParam('details')["exchangeId"],
       itemName        : this.props.navigation.getParam('details')["item_name"],
+      itemValue: this.props.navigation.getParam('details')["item_value"],
       requestId: this.props.navigation.getParam("details")["exchangeId"],
       description  : this.props.navigation.getParam('details')["description"],
       userName:'',
@@ -100,6 +101,9 @@ componentDidMount(){
             </Card>
             <Card>
               <Text style={{fontWeight:'bold'}}>Reason : {this.state.description}</Text>
+            </Card>
+            <Card>
+              <Text style={{fontWeight:'bold'}}>Value : {this.state.itemValue}</Text>
             </Card>
           </Card>
         </View>
